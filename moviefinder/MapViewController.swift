@@ -46,11 +46,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        // création d'une annotation sur l'épingle
+        let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
+        view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        view.canShowCallout = true
+        
+        return view
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("calloutAccessoryControlTapped")
+        // TODO perform segue on Zoom
+        
+    }
+    
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         
         // Requête
         let request = MKLocalSearchRequest()
-        
         request.naturalLanguageQuery = "theatres"
         request.region = mapView.region
         print(mapView.region)
@@ -70,16 +85,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 pin.subtitle = item.placemark.countryCode
                     mapView.addAnnotation(pin)
                 
-//                var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: "Pin")
-//                if annotationView == nil {
-//                    annotationView = MKPinAnnotationView(annotation: pin, reuseIdentifier: "Pin")
-//                    annotationView?.canShowCallout = true
-//                    annotationView?.rightCalloutAccessoryView = UIButton(type: .InfoLight)
-//                }
-//                else {
-//                    annotationView?.annotation = pin
-//                }
-//                
+                
             }
         }
     }
