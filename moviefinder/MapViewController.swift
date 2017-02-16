@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import MapKit
 import Alamofire
-import GooglePlaces
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
@@ -48,10 +47,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        
+        // Requête
         let request = MKLocalSearchRequest()
+        
         request.naturalLanguageQuery = "theatres"
         request.region = mapView.region
         print(mapView.region)
+        
         let search = MKLocalSearch(request: request)
         search.start { response, error in
             guard let response = response else {
@@ -64,8 +67,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 let pin = MKPointAnnotation()
                 pin.coordinate = theatre.coordinate
                 pin.title = item.name
-                print.subtitle = item.placemark.countryCode
+                pin.subtitle = item.placemark.countryCode
                     mapView.addAnnotation(pin)
+                
+//                var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: "Pin")
+//                if annotationView == nil {
+//                    annotationView = MKPinAnnotationView(annotation: pin, reuseIdentifier: "Pin")
+//                    annotationView?.canShowCallout = true
+//                    annotationView?.rightCalloutAccessoryView = UIButton(type: .InfoLight)
+//                }
+//                else {
+//                    annotationView?.annotation = pin
+//                }
+//                
             }
         }
     }
